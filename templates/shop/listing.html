@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block 'title' %} <title>Listing</title> {% endblock %}
+
+{% block 'content' %}
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% for category in categories %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' category.id %}">{{ category.name }}</a>
+                  </li>
+                {% endfor %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' %}">all</a>
+                </li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+
+
+  <div class="container-fluid bg-3 text-center">
+      <h3>Our Products</h3><br>
+      <div class="row">
+        {% for product in products %}
+          <div class="col-sm-3">
+              <a href="{% url 'product_detail' product.id %}"><img src="{{ product.main_image.url }}" class="img-responsive" style="width:100%" alt="Image"></a>
+            <p>{{ product.name }} | {{ product.price }} som</p>
+          </div>
+        {% endfor %}
+
+      </div>
+      <br>
+    </div>
+
+    <div class="container">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+              {% if products.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'products' %}?page={{ products.previous_page_number }}">Previous</a></li>
+              {% endif %}
+
+              {% for i in products.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="{% url 'products' %}?page={{ i }}">{{ i }}</a></li>
+              {% endfor %}
+
+              {% if products.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'products' %}?page={{  products.next_page_number }}">Next</a></li>
+              {% endif %}
+          </ul>
+        </nav>
+    </div>
+{% endblock %}

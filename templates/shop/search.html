@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block 'title' %} <title>Search</title> {% endblock %}
+
+{% block 'content' %}
+
+    {% if products %}
+        <div class="container">
+          <h3>Products - "{{ searched }}"</h3><br>
+          <div class="row">
+            {% for product in products %}
+              <div class="col-sm-3">
+                  <a href="{% url 'product_detail' product.id %}"><img src="{{ product.main_image.url }}" class="img-responsive" style="width:100%" alt="Image"></a>
+                <p>{{ product.name }} | {{ product.price }} som</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+    {% else %}
+        <h2>There are no products with name "{{ searched }}"!</h2>
+    {% endif %}
+
+{% endblock %}
